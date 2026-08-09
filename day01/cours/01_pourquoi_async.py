@@ -32,7 +32,7 @@ def log(message: str) -> None:
 
 async def telecharger(nom: str, duree: float) -> str:
     log(f"  → début du téléchargement de {nom}")
-    await asyncio.sleep(duree)          # ici, la main est rendue à la boucle
+    await time.sleep(duree)          # ici, la main est rendue à la boucle
     log(f"  ← {nom} terminé")
     return f"contenu de {nom}"
 
