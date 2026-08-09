@@ -40,9 +40,9 @@ async def telecharger(nom: str, duree: float) -> str:
 async def io_sequentiel() -> None:
     """Chaque await attend la fin du précédent : les attentes s'ADDITIONNENT."""
     t0 = time.perf_counter()
-    await telecharger("site-a", 2)
-    await telecharger("site-b", 2)
-    await telecharger("site-c", 2)
+    await telecharger("site-a", 3)
+    await telecharger("site-b", 3)
+    await telecharger("site-c", 3)
     print(f"  ⏱  I/O séquentiel  : {time.perf_counter() - t0:.2f}s\n")
 
 
@@ -50,9 +50,9 @@ async def io_concurrent() -> None:
     """gather lance les 3 coroutines comme des tâches : les attentes SE RECOUVRENT."""
     t0 = time.perf_counter()
     await asyncio.gather(
-        telecharger("site-a", 2),
-        telecharger("site-b", 2),
-        telecharger("site-c", 2),
+        telecharger("site-a", 3),
+        telecharger("site-b", 3),
+        telecharger("site-c", 3),
     )
     print(f"  ⏱  I/O concurrent  : {time.perf_counter() - t0:.2f}s\n")
 
@@ -71,6 +71,7 @@ def calcul_lourd(n: int) -> int:
 
 async def cpu_tache(nom: str, n: int) -> int:
     log(f"  → début du calcul {nom}")
+    await asyncio.sleep(0)
     resultat = calcul_lourd(n)          # ⚠️ aucun await ici : la boucle est GELÉE
     log(f"  ← calcul {nom} terminé")
     return resultat
